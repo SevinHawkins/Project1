@@ -37,7 +37,6 @@ object database extends App{
       statement.setString(2, password)
       statement.setInt(3, admin)
       result = statement.executeUpdate()
-      print("User created successfully")
       result
     }
     catch {
@@ -96,6 +95,45 @@ object database extends App{
     }
   }
 
+  def updateUsername(username: String, newUsername: String): Int = {
+    databaseConnect()
+    var result = 0
+    val statement = connection.prepareStatement(s"UPDATE users SET username = '$newUsername' WHERE username = '$username'")
+    try{
+      result = statement.executeUpdate()
+      result
+    }
+    catch {
+      case e: SQLException =>
+        println("User creation failed! Check output console")
+        e.printStackTrace()
+        return 0
+    }
+    finally {
+      connection.close()
+    }
+  }
+
+  def updatePassword(username: String, password: String): Int = {
+    databaseConnect()
+    var result = 0
+    val statement = connection.prepareStatement(s"UPDATE users SET password = '$password' WHERE username = '$username'")
+    try{
+      result = statement.executeUpdate()
+      result
+    }
+    catch {
+      case e: SQLException =>
+        println("User creation failed! Check output console")
+        e.printStackTrace()
+        return 0
+    }
+    finally {
+      connection.close()
+    }
+  }
+
+
   def adminElevation(username: String): Unit = {
     databaseConnect()
     val statement = connection.prepareStatement(s"UPDATE users SET admin = 1 WHERE username = '$username'")
@@ -132,33 +170,34 @@ object database extends App{
     }
   }
 
-  def validateLogin(username: String, password: String): Unit = {
+  def validateLogin(username: String, password: String): Boolean = {
     databaseConnect()
     val statement = connection.prepareStatement(s"SELECT * FROM users WHERE username = '$username' AND password = '$password'")
+    val valid = statement.executeQuery()
     try{
-      val resultSet = statement.executeQuery()
-      if(resultSet.next()){
-        println("Login successful")
+      if(valid.next()){
+        return true
       }
       else{
-        println("Login failed")
+        return false
       }
     }
     catch {
       case e: SQLException =>
-        println("Login failed! Check output console")
+        println("User creation failed! Check output console")
         e.printStackTrace()
-        return
+        return false
     }
     finally {
       connection.close()
     }
   }
 
+
   def validateAdmin(username: String): Boolean = {
     databaseConnect()
-    val statement = connection.prepareStatement("SELECT * FROM users WHERE username = '$username' AND admin = 1")
-    var validUsername = statement.executeQuery()
+    val statement = connection.prepareStatement(s"SELECT * FROM users WHERE username = '$username' AND admin = 1")
+    val validUsername = statement.executeQuery()
     try{
       if(!validUsername.next()){
         return false
@@ -177,6 +216,28 @@ object database extends App{
       connection.close()
     }
 
+  }
+
+  def ShowNonAdmins(): ListBuffer[String] = {
+    databaseConnect()
+    val statement = connection.prepareStatement(s"SELECT * FROM users WHERE admin = 0")
+    val validUsername = statement.executeQuery()
+    val nonAdmins = new ListBuffer[String]()
+    try{
+      while(validUsername.next()){
+        nonAdmins += validUsername.getString("username")
+      }
+      return nonAdmins
+    }
+    catch {
+      case e: SQLException =>
+        println("User creation failed! Check output console")
+        e.printStackTrace()
+        return nonAdmins
+    }
+    finally {
+      connection.close()
+    }
   }
   def disconnect(): Unit = {
     connection.close()

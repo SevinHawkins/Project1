@@ -3,11 +3,196 @@ package Project1
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
 
+import scala.annotation.tailrec
+import scala.collection.mutable.ListBuffer
+
 object userInterface {
+
+  private var admin: Boolean = false
+  private var bool: Boolean = false
+  private var username: String = ""
+
+
   def main(args: Array[String]): Unit = {
+    Spark.sparkMaker()
+    database.databaseConnect()
+  }
+
+  @tailrec
+  def startup(): Unit = {
+    println("Welcome to my Av Nerd App!")
+    println("Are you a:" + "\n" + "[1] New User" + "\n" + "[2] Existing User")
+    val usertype = scala.io.StdIn.readLine()
+    usertype match {
+      case "1" => newAccount()
+      case "2" => userLogin()
+      case _ => println("Invalid input")
+        startup()
+    }
+  }
+
+  @tailrec
+  def newAccount(): Unit = {
+    println("Let's create a new account!")
+    do {
+      println("What do you want your username to be?")
+      username = scala.io.StdIn.readLine()
+      bool = database.checkIfexsists(username)
+    }
+    while (bool)
+    println("What do you want your password to be?")
+    val password = scala.io.StdIn.readLine()
+    val admin = 0
+    val creation = database.createUser(username, password, admin)
+    if (creation == 1) {
+      println("Account created!")
+      startup()
+    }
+    else {
+      println("Account creation failed!")
+      startup()
+    }
+    newAccount()
+  }
 
 
+  @tailrec
+  def userLogin(): Unit = {
+    println("What is your username?")
+    username = scala.io.StdIn.readLine()
+    println("What is your password?")
+    val password = scala.io.StdIn.readLine()
+    val valid = database.validateLogin(username, password)
+    if (valid == 1) {
+      println("Welcome " + username + "!")
+      admin = database.validateAdmin(username)
+      if (admin == 1) {
+        println("Booting to admin panel...")
+        adminPanel()
+      }
+      else {
+        println("Booting to user panel...")
+        userPanel()
+      }
+    }
+    else {
+      println("Invalid username or password. Please try again.")
+      userLogin()
+    }
 
   }
 
+  def userPanel(): Unit = {
+    println {
+      "Av Nerd App: User panel" + "\n" +
+        "[1] Data Queries" + "\n" +
+        "[2] Change username" +
+        "[3] Change password" + "\n" +
+        "[4] Logout" + "\n"
+    }
+    val userInput = scala.io.StdIn.readLine()
+    userInput match {
+      case "1" => dataQueries()
+      case "2" => changeUsername()
+      case "3" => changePassword()
+      case "4" => logout()
+      case _ => println("Invalid input")
+        userPanel()
+    }
+  }
+
+  def adminPanel(): Unit = {
+    println {
+      "Av Nerd App: Admin panel" + "\n" +
+        "[1] Data Queries" + "\n" +
+        "[2] Change username" + "\n" +
+        "[3] Change password" + "\n" +
+        "[4] Delete user" + "\n" +
+        "[5] Admin elevation" + "\n" +
+        "[6] Logout" + "\n"
+    }
+    val adminInput = scala.io.StdIn.readLine()
+    adminInput match {
+      case "1" => dataQueries()
+      case "2" => changeUsername()
+      case "3" => changePassword()
+      case "4" => deleteUser()
+      case "5" => adminElevation()
+      case "6" => logout()
+      case _ => println("Invalid input")
+        adminPanel()
+    }
+  }
+
+  def changeUsername(): Unit = {
+    println("What do you want your new username to be?")
+    val newUsername = scala.io.StdIn.readLine()
+    val change = database.updateUsername(username, newUsername)
+    if (change == 1) {
+      println("Username changed!")
+      userPanel()
+    }
+    else {
+      println("Username change failed!")
+      userPanel()
+    }
+  }
+
+  def changePassword(): Unit = {
+    println("What do you want your new password to be?")
+    val newPassword = scala.io.StdIn.readLine()
+    val change = database.updatePassword(username, newPassword)
+    if (change == 1) {
+      println("Password changed!")
+      userPanel()
+    }
+    else {
+      println("Password change failed!")
+      userPanel()
+    }
+  }
+
+  def deleteUser(): Unit = {
+    println("Are you sure you want to delete your account?")
+    val delete = scala.io.StdIn.readLine()
+    if (delete == "yes") {
+      val delete = database.deleteUser(username)
+      if (delete == 1) {
+        println("Account deleted!")
+        startup()
+      }
+      else {
+        println("Account deletion failed!")
+        userPanel()
+      }
+    }
+    else {
+      println("Account deletion cancelled!")
+      userPanel()
+    }
+  }
+
+  def adminElevation(): Unit = {
+    println(" List of current non admin users: ")
+    var users: ListBuffer[String] = database.ShowNonAdmins()
+    for (i <- users) {
+      println(i)
+    }
+    println("Which user do you want to elevate to admin?")
+    val user = scala.io.StdIn.readLine()
+    val change = database.adminElevation(user)
+    if (change == 1) {
+      println("User elevated to admin!")
+      adminPanel()
+    }
+    else {
+      println("User elevation failed!")
+      adminPanel()
+    }
+  }
+
+  def logout(): Unit = {
+    println("Logging out...")
+    startup()
+  }
 }
