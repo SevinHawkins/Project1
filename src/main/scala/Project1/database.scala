@@ -21,10 +21,10 @@ object database extends App {
         e.printStackTrace()
         return
     }
-    println("Connection to database successful")
   }
 
   def createUser(username: String, password: String, admin: Boolean): Int = {
+    databaseConnect()
     val statement = connection.prepareStatement("INSERT INTO users (username, password, admin) VALUES (?, ?, ?)")
     var result = 0
     try {
@@ -142,15 +142,16 @@ object database extends App {
     }
   }
 
-  def validateLogin(username: String, password: String): Boolean = {
-    val statement = connection.prepareStatement(s"SELECT * FROM users WHERE username = '$username' AND password = '$password'")
+  def validateLogin(inputUsername: String, inputPassword: String): Boolean = {
+    databaseConnect()
+    val statement = connection.prepareStatement(s"SELECT * FROM users WHERE username = '$inputUsername' AND password = '$inputPassword'")
     val valid = statement.executeQuery()
     try{
       if(valid.next()){
-        true
+        return true
       }
       else{
-        false
+        return false
       }
     }
     catch {

@@ -17,7 +17,6 @@ object userInterface {
     startup()
   }
 
-  @tailrec
   def startup(): Unit = {
     println("Welcome to my Av Nerd App!")
     println("Are you a:" + "\n" + "[1] New User" + "\n" + "[2] Existing User" + "\n" + "[3] Prefer to leave")
@@ -49,18 +48,18 @@ object userInterface {
     }
     newAccount()
   }
-  2
 
+  @tailrec
   def userLogin(): Unit = {
     println("What is your username?")
     username = scala.io.StdIn.readLine()
     println("What is your password?")
     val password = scala.io.StdIn.readLine()
     val valid = database.validateLogin(username, password)
-    if (valid == 1) {
+    if (valid) {
       println("Welcome " + username + "!")
       admin = database.validateAdmin(username)
-      if (admin == 1) {
+      if (admin) {
         println("Booting to admin panel...")
         adminPanel()
       }
@@ -80,7 +79,7 @@ object userInterface {
     println {
       "Av Nerd App: User panel" + "\n" +
         "[1] Data Queries" + "\n" +
-        "[2] Change username" +
+        "[2] Change username" + "\n" +
         "[3] Change password" + "\n" +
         "[4] Logout" + "\n"
     }
@@ -124,7 +123,7 @@ object userInterface {
     println{
       "[1] Sort airports by airport ID" + "\n" +
       "[2] Sort by airport type" + "\n" +
-      "[3] Sprt by scheduled services" + "\n" +
+      "[3] Sort by scheduled services" + "\n" +
       "[4] Sort by airport continent" + "\n" +
       "[5] Sort by airport country" + "\n" +
       "[6] Sort by airport region" + "\n" +
@@ -140,8 +139,8 @@ object userInterface {
       case "6" => Spark.query6()
       case "7" => toTheMenus()
       case _ => println("Invalid input")
-        dataQueries()
     }
+    dataQueries()
   }
 
   def toTheMenus(): Unit = {
