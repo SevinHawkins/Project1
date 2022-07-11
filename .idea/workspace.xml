@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49e4875a-a992-4ed4-b055-8295ac53801d" name="Changes" comment="User interface running. Sorting out login issues">
+    <list default="true" id="49e4875a-a992-4ed4-b055-8295ac53801d" name="Changes" comment="login Issue fixed. Final version here.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Project1/database.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Project1/database.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/Project1/userInterface.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Project1/userInterface.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657524261438</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="login Issue fixed. Final version here.">
+      <created>1657552824479</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1657552824479</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -161,6 +167,7 @@
     <MESSAGE value="Queries created. Code will be tested for runtime errors" />
     <MESSAGE value="Added more user menu functionality, including a function to return to the respective panel after using the queries menu." />
     <MESSAGE value="User interface running. Sorting out login issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="User interface running. Sorting out login issues" />
+    <MESSAGE value="login Issue fixed. Final version here." />
+    <option name="LAST_COMMIT_MESSAGE" value="login Issue fixed. Final version here." />
   </component>
 </project>

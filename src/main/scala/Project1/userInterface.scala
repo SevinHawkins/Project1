@@ -158,10 +158,14 @@ object userInterface {
     val change = database.updateUsername(username, newUsername)
     if (change == 1) {
       println("Username changed!")
-      userPanel()
     }
     else {
       println("Username change failed!")
+    }
+    if(admin) {
+      adminPanel()
+    }
+    else {
       userPanel()
     }
   }
@@ -172,10 +176,14 @@ object userInterface {
     val change = database.updatePassword(username, newPassword)
     if (change == 1) {
       println("Password changed!")
-      userPanel()
     }
     else {
       println("Password change failed!")
+    }
+    if(admin) {
+      adminPanel()
+    }
+    else {
       userPanel()
     }
   }
