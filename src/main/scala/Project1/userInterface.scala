@@ -1,10 +1,10 @@
 package Project1
 
-import org.apache.log4j.{Level, Logger}
-import org.apache.spark.sql.SparkSession
+
 
 import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
+import scala.sys.exit
 
 object userInterface {
 
@@ -14,19 +14,20 @@ object userInterface {
 
 
   def main(args: Array[String]): Unit = {
-    Spark.sparkMaker()
+    Spark.sparkConnect()
     database.databaseConnect()
   }
 
   @tailrec
   def startup(): Unit = {
     println("Welcome to my Av Nerd App!")
-    println("Are you a:" + "\n" + "[1] New User" + "\n" + "[2] Existing User")
-    val usertype = scala.io.StdIn.readLine()
-    usertype match {
+    println("Are you a:" + "\n" + "[1] New User" + "\n" + "[2] Existing User" + "\n" + "[3] Prefer to leave")
+    val input = scala.io.StdIn.readLine()
+    input match {
       case "1" => newAccount()
       case "2" => userLogin()
-      case _ => println("Invalid input")
+      case "3" => closeApp()
+      case _ => println("Invalid input, please try again")
         startup()
     }
   }
@@ -124,6 +125,41 @@ object userInterface {
     }
   }
 
+  def dataQueries(): Unit = {
+    println("Here is the nerdy stuff!")
+    println("Select an option to start a query")
+    println{
+      "[1] Sort airports by airport ID" + "\n" +
+      "[2] Sort by airport type" + "\n" +
+      "[3] Sprt by scheduled services" + "\n" +
+      "[4] Sort by airport continent" + "\n" +
+      "[5] Sort by airport country" + "\n" +
+      "[6] Sort by airport region" + "\n" +
+      "[7] Back to panel" + "\n"
+    }
+    val queryInput = scala.io.StdIn.readLine()
+    queryInput match {
+      case "1" => Spark.query1()
+      case "2" => Spark.query2()
+      case "3" => Spark.query3()
+      case "4" => Spark.query4()
+      case "5" => Spark.query5()
+      case "6" => Spark.query6()
+      case "7" => toTheMenus()
+      case _ => println("Invalid input")
+        dataQueries()
+    }
+  }
+
+  def toTheMenus(): Unit = {
+    if (admin) {
+      adminPanel()
+    }
+    else {
+      userPanel()
+    }
+  }
+
   def changeUsername(): Unit = {
     println("What do you want your new username to be?")
     val newUsername = scala.io.StdIn.readLine()
@@ -194,5 +230,13 @@ object userInterface {
   def logout(): Unit = {
     println("Logging out...")
     startup()
+  }
+
+  def closeApp(): Unit = {
+    println("Closing app...")
+    println("Goodbye!")
+    Spark.close()
+    database.disconnect()
+    exit(0)
   }
 }

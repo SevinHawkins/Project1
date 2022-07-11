@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49e4875a-a992-4ed4-b055-8295ac53801d" name="Changes" comment="Setting up the Spark session and preparing to create queries">
+    <list default="true" id="49e4875a-a992-4ed4-b055-8295ac53801d" name="Changes" comment="Queries created. Code will be tested for runtime errors">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Project1/Spark.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Project1/Spark.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Project1/userInterface.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Project1/userInterface.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657500108527</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Queries created. Code will be tested for runtime errors">
+      <created>1657517620081</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1657517620081</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -109,6 +116,7 @@
     <MESSAGE value="Got a good project structure made, created a user database, and will soon work on connecting the API and querying that data through Spark" />
     <MESSAGE value="User interface mostly complete" />
     <MESSAGE value="Setting up the Spark session and preparing to create queries" />
-    <option name="LAST_COMMIT_MESSAGE" value="Setting up the Spark session and preparing to create queries" />
+    <MESSAGE value="Queries created. Code will be tested for runtime errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Queries created. Code will be tested for runtime errors" />
   </component>
 </project>
