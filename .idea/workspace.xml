@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49e4875a-a992-4ed4-b055-8295ac53801d" name="Changes" comment="Got a good project structure made, created a user database, and will soon work on connecting the API and querying that data through Spark">
+    <list default="true" id="49e4875a-a992-4ed4-b055-8295ac53801d" name="Changes" comment="User interface mostly complete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/Project1/Spark.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Project1/Spark.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Project1/database.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Project1/database.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Project1/userInterface.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Project1/userInterface.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +76,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657395283702</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="User interface mostly complete">
+      <created>1657492520308</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1657492520308</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -95,6 +100,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Started basic structure. Will work out the fine details soon." />
     <MESSAGE value="Got a good project structure made, created a user database, and will soon work on connecting the API and querying that data through Spark" />
-    <option name="LAST_COMMIT_MESSAGE" value="Got a good project structure made, created a user database, and will soon work on connecting the API and querying that data through Spark" />
+    <MESSAGE value="User interface mostly complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="User interface mostly complete" />
   </component>
 </project>
