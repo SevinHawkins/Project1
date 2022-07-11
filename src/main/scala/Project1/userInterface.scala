@@ -1,7 +1,5 @@
 package Project1
 
-
-
 import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.sys.exit
@@ -16,6 +14,7 @@ object userInterface {
   def main(args: Array[String]): Unit = {
     Spark.sparkConnect()
     database.databaseConnect()
+    startup()
   }
 
   @tailrec
@@ -32,18 +31,13 @@ object userInterface {
     }
   }
 
-  @tailrec
   def newAccount(): Unit = {
     println("Let's create a new account!")
-    do {
-      println("What do you want your username to be?")
-      username = scala.io.StdIn.readLine()
-      bool = database.checkIfexsists(username)
-    }
-    while (bool)
+    println("What do you want your username to be?")
+    username = scala.io.StdIn.readLine()
     println("What do you want your password to be?")
     val password = scala.io.StdIn.readLine()
-    val admin = 0
+    admin = false
     val creation = database.createUser(username, password, admin)
     if (creation == 1) {
       println("Account created!")
@@ -55,9 +49,8 @@ object userInterface {
     }
     newAccount()
   }
+  2
 
-
-  @tailrec
   def userLogin(): Unit = {
     println("What is your username?")
     username = scala.io.StdIn.readLine()

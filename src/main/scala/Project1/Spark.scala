@@ -18,37 +18,37 @@ object Spark {
     println("Connected to Spark")
 
     spark.sparkContext.setLogLevel("ERROR")
-    val df = spark.read.csv("hdfs://localhost:9000/user/sevin/airports.csv")
+    val df = spark.read.option("delimiter", ",").option("inferSchema", "true").option("header", "true").csv("hdfs://localhost:9000/user/sevin/airports.csv")
     df.createOrReplaceTempView("airports")
 
     // query 1
     spark.sql("DROP TABLE IF EXISTS query1")
-    spark.sql("create table query1('id' int, 'name' string, 'continent' string) row format delimited fields terminated by ',' stored as textfile")
+    spark.sql("create table query1(id int, name String, continent String) row format delimited fields terminated by ',' stored as textfile")
     spark.sql("insert into table query1(select id, name, continent from airports)")
 
     // query 2
     spark.sql("DROP TABLE IF EXISTS query2")
-    spark.sql("create table query2('id' int, 'name' string, 'type' string, 'continent' string) row format delimited fields terminated by ',' stored as textfile")
+    spark.sql("create table query2(id int, name string, type string, continent string) row format delimited fields terminated by ',' stored as textfile")
     spark.sql("insert into table query2(select id, name, type, continent from airports)")
 
     // query 3
     spark.sql("DROP TABLE IF EXISTS query3")
-    spark.sql("create table query3('id' int, 'name' string, 'type' string, 'continent' string, 'scheduled_service' string) row format delimited fields terminated by ',' stored as textfile")
+    spark.sql("create table query3(id int, name string, type string, continent string, scheduled_service string) row format delimited fields terminated by ',' stored as textfile")
     spark.sql("insert into table query3(select id, name, type, continent, scheduled_service from airports)")
 
     // query 4
     spark.sql("DROP TABLE IF EXISTS query4")
-    spark.sql("create table query4('id' int, 'name' string, 'type' string, 'continent' string, 'iso_country' string, 'iso_region' string, 'municipality' string) row format delimited fields terminated by ',' stored as textfile")
+    spark.sql("create table query4(id int, name string, type string, continent string, iso_country string, iso_region string, municipality string) row format delimited fields terminated by ',' stored as textfile")
     spark.sql("insert into table query4(select id, name, type, continent, iso_country, iso_region, municipality from airports)")
 
     // query 5
     spark.sql("DROP TABLE IF EXISTS query5")
-    spark.sql("create table query5('id' int, 'name' string, 'type' string, 'continent' string, 'iso_country' string, 'iso_region' string, 'municipality' string, row format delimited fields terminated by ',' stored as textfile")
+    spark.sql("create table query5(id int, name string, type string, continent string, iso_country string, iso_region string, municipality string) row format delimited fields terminated by ',' stored as textfile")
     spark.sql("insert into table query5(select id, name, type, continent, iso_country, iso_region, municipality from airports)")
 
     // query 6
     spark.sql("DROP TABLE IF EXISTS query6")
-    spark.sql("create table query6('id' int, 'ident' string, 'name' string, 'type' string, 'continent' string, 'iso_country' string, 'iso_region' string, 'municipality' string) row format delimited fields terminated by ',' stored as textfile")
+    spark.sql("create table query6(id int, ident string, name string, type string, continent string, iso_country string, iso_region string, municipality string) row format delimited fields terminated by ',' stored as textfile")
     spark.sql("insert into table query6(select id, ident, name, type, continent, iso_country, iso_region, municipality from airports)")
 
   }

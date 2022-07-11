@@ -1,13 +1,9 @@
 package Project1
 
-import org.apache.hadoop.shaded.org.eclipse.jetty.util.security.Password
-import org.apache.log4j.{Level, Logger}
-import org.apache.spark.sql.SparkSession
-
 import java.sql.{Connection, DriverManager, SQLException}
 import scala.collection.mutable.ListBuffer
 
-object database extends App{
+object database extends App {
   private var connection: Connection = _
 
   def databaseConnect(): Unit = {
@@ -28,34 +24,28 @@ object database extends App{
     println("Connection to database successful")
   }
 
-  def createUser(username: String, password: String, admin: Int): Int = {
-    databaseConnect()
+  def createUser(username: String, password: String, admin: Boolean): Int = {
+    val statement = connection.prepareStatement("INSERT INTO users (username, password, admin) VALUES (?, ?, ?)")
     var result = 0
-    val statement = connection.prepareStatement(s"INSERT INTO users (username, password, admin) VALUES ('$username', '$password', $admin)")
-    try{
+    try {
       statement.setString(1, username)
       statement.setString(2, password)
-      statement.setInt(3, admin)
+      statement.setBoolean(3, admin)
       result = statement.executeUpdate()
       result
-    }
-    catch {
+    } catch {
       case e: SQLException =>
-        println("User creation failed! Check output console")
+        println("Error creating user")
         e.printStackTrace()
-        return 0
+        result
     }
-    finally {
-      connection.close()
-    }
-
-
-
   }
+
+
   def displayUsername(username: String): Unit = {
     databaseConnect()
     val statement = connection.prepareStatement(s"SELECT * FROM users WHERE username = '$username'")
-    try{
+    try {
       val resultSet = statement.executeQuery()
       while (resultSet.next()) {
         println(resultSet.getString("username"))
@@ -66,9 +56,6 @@ object database extends App{
         println("User creation failed! Check output console")
         e.printStackTrace()
         return
-    }
-    finally {
-      connection.close()
     }
   }
 
@@ -90,9 +77,6 @@ object database extends App{
         e.printStackTrace()
         return false
     }
-    finally {
-      connection.close()
-    }
   }
 
   def updateUsername(username: String, newUsername: String): Int = {
@@ -108,9 +92,6 @@ object database extends App{
         println("User creation failed! Check output console")
         e.printStackTrace()
         return 0
-    }
-    finally {
-      connection.close()
     }
   }
 
@@ -128,9 +109,6 @@ object database extends App{
         e.printStackTrace()
         return 0
     }
-    finally {
-      connection.close()
-    }
   }
 
 
@@ -147,9 +125,6 @@ object database extends App{
         e.printStackTrace()
         return
     }
-    finally {
-      connection.close()
-    }
   }
 
   def deleteUser(username: String): Unit = {
@@ -165,21 +140,17 @@ object database extends App{
         e.printStackTrace()
         return
     }
-    finally {
-      connection.close()
-    }
   }
 
   def validateLogin(username: String, password: String): Boolean = {
-    databaseConnect()
     val statement = connection.prepareStatement(s"SELECT * FROM users WHERE username = '$username' AND password = '$password'")
     val valid = statement.executeQuery()
     try{
       if(valid.next()){
-        return true
+        true
       }
       else{
-        return false
+        false
       }
     }
     catch {
@@ -187,9 +158,6 @@ object database extends App{
         println("User creation failed! Check output console")
         e.printStackTrace()
         return false
-    }
-    finally {
-      connection.close()
     }
   }
 
@@ -212,10 +180,6 @@ object database extends App{
         e.printStackTrace()
         return false
     }
-    finally {
-      connection.close()
-    }
-
   }
 
   def ShowNonAdmins(): ListBuffer[String] = {
@@ -234,9 +198,6 @@ object database extends App{
         println("User creation failed! Check output console")
         e.printStackTrace()
         return nonAdmins
-    }
-    finally {
-      connection.close()
     }
   }
   def disconnect(): Unit = {
